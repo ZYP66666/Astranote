@@ -1,0 +1,1 @@
+"""AstraNotes Flask application package."""

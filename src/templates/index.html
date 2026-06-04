@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}AstraNotes Final MVP{% endblock %}
+
+{% block content %}
+  <section class="intro">
+    <h1>AstraNotes</h1>
+    <p>A local-running Flask and SQLite note-taking MVP for the final AI-Driven Software Development defense.</p>
+    <p>This skeleton prepares the app structure for authentication, note management, traceability, and pytest validation.</p>
+    <div class="actions">
+      <a class="button" href="{{ url_for('notes.list_notes') }}">Open Notes Workspace</a>
+      <a class="button secondary" href="{{ url_for('auth.register') }}">Register Placeholder</a>
+    </div>
+  </section>
+{% endblock %}
