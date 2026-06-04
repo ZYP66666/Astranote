@@ -11,15 +11,31 @@
       <nav class="nav">
         <a class="brand" href="{{ url_for('index') }}">AstraNotes</a>
         <div class="nav-links">
-          <a href="{{ url_for('notes.list_notes') }}">Notes</a>
-          <a href="{{ url_for('notes.new_note') }}">New Note</a>
-          <a href="{{ url_for('auth.login') }}">Login</a>
-          <a href="{{ url_for('auth.register') }}">Register</a>
+          {% if g.user %}
+            <a href="{{ url_for('notes.list_notes') }}">Notes</a>
+            <a href="{{ url_for('notes.new_note') }}">New Note</a>
+            <span class="nav-user">{{ g.user.username }}</span>
+            <form class="nav-form" action="{{ url_for('auth.logout') }}" method="post">
+              <button class="link-button" type="submit">Logout</button>
+            </form>
+          {% else %}
+            <a href="{{ url_for('auth.login') }}">Login</a>
+            <a href="{{ url_for('auth.register') }}">Register</a>
+          {% endif %}
         </div>
       </nav>
     </header>
 
     <main class="page">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <section class="flash-list">
+            {% for category, text in messages %}
+              <p class="flash {{ category }}">{{ text }}</p>
+            {% endfor %}
+          </section>
+        {% endif %}
+      {% endwith %}
       {% if message %}
         <section class="notice">{{ message }}</section>
       {% endif %}

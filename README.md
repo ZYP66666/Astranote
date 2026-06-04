@@ -12,12 +12,14 @@ The original course artifacts explored a C++17 local-first desktop direction. Th
 - HTML/CSS/Jinja templates
 - pytest
 - Local-running web application
-- Basic multi-user support planned
+- Basic multi-user support in progress
 - Simple MVC / separation-of-concerns architecture
 
 ## Current Implementation Status
 
-This step creates the runnable Flask skeleton only. It does not yet implement registration, login, create note, edit note, delete note, search, secure notes, version history, cloud sync, OAuth, Docker, Kubernetes, enterprise admin, AI summarization, or collaborative editing.
+FR-1 local registration, login, logout, password hashing, and Flask session handling are implemented. The notes workspace remains a protected placeholder.
+
+The app does not yet implement note creation, note listing/opening, note editing, note deletion, note search, secure notes, version history, cloud sync, OAuth, Docker, Kubernetes, enterprise admin, billing, AI summarization, or collaborative editing.
 
 ## Repository Structure
 
@@ -102,7 +104,7 @@ This creates the configured local SQLite database and applies `src/db/schema.sql
 python -m pytest
 ```
 
-The current tests cover skeleton-level behavior only: home page smoke loading and SQLite schema initialization with a temporary database.
+The current tests cover skeleton smoke behavior, SQLite schema initialization, user repository behavior, AuthService validation/authentication, password hashing, register/login/logout routing, and protected notes access.
 
 ## Instructor Review Path
 

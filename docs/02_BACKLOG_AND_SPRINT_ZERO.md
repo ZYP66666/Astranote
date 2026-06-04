@@ -15,6 +15,18 @@ Requirements -> User Stories -> Acceptance Criteria -> Backlog -> Sprint Zero Pl
 
 ## Updated User Stories And Acceptance Criteria
 
+### User Story 0: Register And Log In
+
+As a local user, I want to register, log in, and log out so that my notes are separated from other local demo users.
+
+Acceptance criteria:
+
+- A user can register with username and password.
+- A user can log in with valid credentials.
+- A user can log out.
+- Passwords are hashed.
+- Empty fields and duplicate usernames produce clear errors.
+
 ### User Story 1: Create A Note
 
 As a logged-in user, I want to create a note with a title and content so that I can capture information quickly.
@@ -72,14 +84,23 @@ Acceptance criteria:
 
 ### User Story 6: Basic Local Multi-User Support
 
-As a local user, I want my own account so that my notes are separated from other local demo users.
+As a local user, I want account-based note ownership so that I cannot access another user's notes.
 
 Acceptance criteria:
 
-- A user can register with username and password.
-- A user can log in and log out.
-- Passwords are hashed.
 - Every note query is scoped to the current user.
+- User A cannot view, edit, delete, or search User B's notes.
+
+### User Story 7: Search Own Notes
+
+As a logged-in user, I want to search my own notes by keyword so that I can find saved content quickly.
+
+Acceptance criteria:
+
+- Search checks note titles and content.
+- Search results are scoped to the current user.
+- Search does not reveal another user's notes.
+- Search remains a simple SQLite-backed MVP feature, not a separate search service.
 
 ## Prioritized Backlog
 
@@ -96,16 +117,17 @@ Acceptance criteria:
 
 7. Edit existing note workflow
 8. Delete with confirmation workflow
-9. Jinja templates and CSS for a usable local demo
-10. Flash messages for validation and errors
-11. pytest coverage for service, repository, and route behavior
+9. Search own notes by title/content keyword
+10. Jinja templates and CSS for a usable local demo
+11. Flash messages for validation and errors
+12. pytest coverage for service, repository, and route behavior
 
 ### Priority 3: Polish And Defense Readiness
 
-12. Seed/demo data helper if needed
-13. Final demo script execution check
-14. Deployment notes and environment instructions
-15. Traceability review against final requirements
+13. Seed/demo data helper if needed
+14. Final demo script execution check
+15. Deployment notes and environment instructions
+16. Traceability review against final requirements
 
 ## Updated Sprint Zero Plan
 

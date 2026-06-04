@@ -57,7 +57,7 @@ Before adding a feature:
 | --- | --- |
 | Secure notes | Add threat model, encryption design, passphrase UX, and tests. |
 | Version history | Define snapshot rules, restore workflow, and duplicate prevention. |
-| Search | Add explicit requirement and query behavior. |
+| Search | Implement final FR-6 as simple SQLite keyword search scoped by current user. |
 | Markdown preview | Decide rendering library and escaping/safety rules. |
 | Voice notes | Define storage format, upload limits, and playback UX. |
 | Plugin system | Define extension interface and security boundaries. |

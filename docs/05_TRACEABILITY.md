@@ -16,25 +16,26 @@ This document preserves the traceability discipline from the course artifacts wh
 
 | Requirement | User Story | Design Element | Implementation Target | Test Target | Status |
 | --- | --- | --- | --- | --- | --- |
-| FR1 Create note | Story 1 | Note, NoteService, NoteRepository | `/notes/new`, SQLite insert | Reject blank title, create valid note | Scaffolded route/template only |
-| FR2 Open/view note | Story 2 | NoteService, NoteRepository, note detail template | `/notes/<id>` | Open saved note, block unauthorized note | Scaffolded notes workspace only |
-| FR3 Edit note | Story 3 | NoteService update path | `/notes/<id>/edit` | Update without duplicate, preserve ownership | Planned |
-| FR4 Delete note | Story 4 | NoteService delete path | `/notes/<id>/delete` | Confirm delete, cancel leaves note | Planned |
-| FR5 Markdown preservation | Story 5 | Note content field | Textarea and SQLite text column | Markdown saved/reloaded exactly | Scaffolded form field/schema only |
-| FR7 Local persistence | Stories 1-3 | SQLite database, repositories | `users` and `notes` tables | Data persists across app context/reload | Schema/init scaffolded |
-| FR9 Basic multi-user | Story 6 | User, AuthService, Flask session | Register/login/logout routes | User A cannot access User B notes | Scaffolded forms/schema only |
+| FR-1 Register/login | Story 0 | User, AuthService, UserRepository, Flask session | `/auth/register`, `/auth/login`, `/auth/logout` | Validation, duplicate username, password hash, valid/invalid login, route flow | Implemented |
+| FR-2 Create note | Story 1 | Note, NoteService, NoteRepository | `/notes/new`, SQLite insert | Reject blank title, create valid note | Scaffolded route/template only |
+| FR-3 List/view/open own notes | Story 2 | NoteService, NoteRepository, notes templates | `/notes/`, `/notes/<id>` | List only current user's notes, open saved note | Protected workspace scaffolded |
+| FR-4 Edit own notes | Story 3 | NoteService update path | `/notes/<id>/edit` | Update without duplicate, preserve ownership | Planned |
+| FR-5 Delete own notes | Story 4 | NoteService delete path | `/notes/<id>/delete` | Confirm delete, cancel leaves note | Planned |
+| FR-6 Search own notes | Story 7 | NoteService search path, NoteRepository query | `/notes/search` | Search title/content and scope to current user | Planned |
+| FR-7 Block cross-user note access | Story 6 | AuthService session, NoteService ownership checks | All note routes and repository queries | User A cannot access User B's notes | Auth foundation implemented; note checks planned |
+| FR-8 Markdown preservation | Story 5 | Note content field | Textarea and SQLite text column | Markdown saved/reloaded exactly | Scaffolded form field/schema only |
 | GR1 MVC separation | All stories | Routes, services, repositories, templates | App package structure | Service/repository tests avoid UI dependency | Skeleton implemented |
-| RR1-FLASK pytest validation | All stories | pytest suite | `tests/` | Unit, integration, route tests | Smoke/database baseline implemented |
+| RR1-FLASK pytest validation | All stories | pytest suite | `tests/` | Unit, integration, route tests | Auth, smoke, and database baseline implemented |
 
 ## Deferred Traceability Items
 
 | Original Requirement | Final Decision | Reason |
 | --- | --- | --- |
-| FR6 multiple note types | Defer | Text notes only for MVP. |
+| Original multiple note types | Defer | Text notes only for MVP. |
 | SPR1 encrypted secure notes | Defer | Real encryption is explicitly out of scope. |
 | SPR2 passphrase unlock | Defer | Secure notes are not part of MVP. |
-| FR8 version history/restore | Defer | Useful but not required for final runnable MVP. |
-| SearchIndex/Search Notes | Defer or remove | Earlier traceability identified this as weakly justified. |
+| Original version history/restore | Defer | Useful but not required for final runnable MVP. |
+| Dedicated SearchIndex | Defer | Final FR-6 will use simple SQLite keyword search, not a separate search-index subsystem. |
 | Voice Notes | Defer | Future extension only. |
 
 ## Traceability Rules For Implementation
@@ -47,14 +48,14 @@ This document preserves the traceability discipline from the course artifacts wh
 
 ## Skeleton Implementation Note
 
-The current codebase has a runnable Flask app, registered auth and notes blueprints, Jinja placeholder pages, SQLite schema initialization, service/repository placeholders, and skeleton-level pytest coverage. Full register/login and note CRUD behavior is intentionally not implemented yet.
+The current codebase has a runnable Flask app, implemented FR-1 auth routes, session handling, user persistence, password hashing, protected notes placeholder routes, SQLite schema initialization, service/repository placeholders for notes, and pytest coverage for the implemented auth slice. Note CRUD and search are intentionally not implemented yet.
 
 ## Migration From Old C++ Path
 
 Migrated:
 
 - Requirement IDs and user story structure
-- Fully traced FR1 and FR7 emphasis
+- Fully traced original create-note and local persistence emphasis
 - Partial-trace warnings for open failure behavior, edit behavior, and deferred features
 - Gold-plating warning about SearchIndex
 
