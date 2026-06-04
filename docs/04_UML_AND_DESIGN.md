@@ -118,7 +118,7 @@ flowchart TD
 - SecureNote is deferred.
 - EncryptionService is deferred.
 - VersionHistory is deferred.
-- SearchIndex is deferred because it was weakly justified in traceability.
+- A dedicated SearchIndex is deferred. FR-6 will be implemented later as a simple SQLite title/content search scoped by user.
 - VoiceNote is deferred.
 - Plugin-style extensibility is deferred.
 

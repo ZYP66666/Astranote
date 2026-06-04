@@ -15,17 +15,18 @@ This document migrates the AstraNotes requirement baseline from the original cou
 
 AstraNotes will be a local-running web application that lets users create, manage, and reopen Markdown-compatible text notes. It should demonstrate disciplined SDLC practice, basic privacy boundaries through local user accounts, SQLite persistence, MVC separation, and pytest-based validation.
 
-## Functional Requirements Kept For MVP
+## Final Flask MVP Functional Requirements
 
 | ID | Final MVP Requirement | Source Requirement |
 | --- | --- | --- |
-| FR1 | A user can create a note with a title and content. | Original FR1 |
-| FR2 | A user can open and view an existing saved note. | Original FR2 |
-| FR3 | A user can edit an existing note and save changes. | Original FR3 |
-| FR4 | A user can delete a note after confirmation. | Original FR4 |
-| FR5 | A note can contain Markdown-formatted text, preserved exactly as typed. | Original FR5 |
-| FR7 | Notes are saved locally in SQLite and can be reopened later. | Original FR7 |
-| FR9 | A local user can register, log in, log out, and only access their own notes. | Added for final Flask MVP |
+| FR-1 | User can register and log in. | Added for final Flask MVP basic multi-user support. |
+| FR-2 | User can create a note with title and content. | Original course create-note requirement. |
+| FR-3 | User can list, view, and open their own notes. | Original course open/view requirement plus final user ownership rule. |
+| FR-4 | User can edit their own notes. | Original course edit-note requirement plus final user ownership rule. |
+| FR-5 | User can delete their own notes with confirmation. | Original course delete-note requirement plus final user ownership rule. |
+| FR-6 | User can search their own notes by keyword in title or content. | Formalizes the earlier weak SearchIndex idea as a scoped MVP feature. |
+| FR-7 | User cannot see, edit, delete, or search another user's notes. | Added for final Flask MVP multi-user privacy boundary. |
+| FR-8 | Markdown-compatible note content is preserved exactly as typed. | Original course Markdown requirement. |
 
 ## Non-Functional Requirements Kept For MVP
 
@@ -35,6 +36,7 @@ AstraNotes will be a local-running web application that lets users create, manag
 | NFR2 | The data model should reasonably support at least 1,000 notes. | Kept as scale awareness, not a performance-heavy feature. |
 | GR1 | Business logic is separated from UI rendering. | Preserves MVC/separation-of-concerns intent. |
 | RR1-FLASK | Core behavior is testable with pytest. | Replaces Google Test. |
+| DR1 | Notes and users are persisted in local SQLite. | Carries forward the original course local persistence requirement. |
 
 ## Security, Privacy, And Reliability Requirements Kept For MVP
 
@@ -51,7 +53,7 @@ AstraNotes will be a local-running web application that lets users create, manag
 - Voice notes
 - Full extensible plugin architecture
 - Full version history and restore
-- Search index or advanced search
+- Advanced search ranking or a dedicated SearchIndex
 - Markdown preview/rendering
 - Cloud sync, OAuth, enterprise admin, billing, mobile app
 - AI summarization or collaborative editing
@@ -62,7 +64,7 @@ AstraNotes will be a local-running web application that lets users create, manag
 Migrated:
 
 - Product idea: local-first technical notes for engineers
-- Requirements for create/open/edit/delete/save
+- Requirements for register/login and create/open/edit/delete/search/save
 - Markdown preservation
 - MVC separation
 - Testing and traceability expectations

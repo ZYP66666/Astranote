@@ -7,7 +7,7 @@
     <h1>Register</h1>
     <form method="post">
       <label for="username">Username</label>
-      <input id="username" name="username" type="text" autocomplete="username">
+      <input id="username" name="username" type="text" value="{{ username or '' }}" autocomplete="username">
 
       <label for="password">Password</label>
       <input id="password" name="password" type="password" autocomplete="new-password">

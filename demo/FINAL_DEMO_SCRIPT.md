@@ -44,7 +44,7 @@ http://127.0.0.1:5000
 python -m pytest
 ```
 
-The current implementation is a skeleton. Full registration, login, and note CRUD demo steps will become executable after later implementation slices.
+The current implementation supports FR-1 registration, login, logout, and protected placeholder pages. Full note CRUD and search demo steps will become executable after later implementation slices.
 
 ## Demo Walkthrough
 
@@ -82,7 +82,7 @@ Expected result:
 
 Requirement evidence:
 
-- FR9 basic multi-user support
+- FR-1 registration/login
 - SPR-MVP local privacy boundary
 
 ### 4. Create A Note
@@ -101,9 +101,8 @@ Expected result:
 
 Requirement evidence:
 
-- FR1 create note
-- FR5 Markdown preservation
-- FR7 local persistence
+- FR-2 create note
+- FR-8 Markdown preservation
 
 ### 5. Open The Saved Note
 
@@ -117,7 +116,7 @@ Expected result:
 
 Requirement evidence:
 
-- FR2 open/view note
+- FR-3 list/view/open own notes
 
 ### 6. Edit The Note
 
@@ -134,7 +133,7 @@ Expected result:
 
 Requirement evidence:
 
-- FR3 edit note
+- FR-4 edit own notes
 
 ### 7. Delete The Note
 
@@ -149,9 +148,25 @@ Expected result:
 
 Requirement evidence:
 
-- FR4 delete note with confirmation
+- FR-5 delete own notes with confirmation
 
-### 8. Demonstrate User Isolation
+### 8. Search Notes
+
+Action:
+
+- Search for a keyword in the user's own note title or content.
+
+Expected result:
+
+- Matching notes owned by the current user are shown.
+- Notes owned by other users are not shown.
+
+Requirement evidence:
+
+- FR-6 search own notes
+- FR-7 cross-user note isolation
+
+### 9. Demonstrate User Isolation
 
 Action:
 
@@ -164,10 +179,10 @@ Expected result:
 
 Requirement evidence:
 
-- FR9 basic multi-user support
+- FR-7 cross-user note isolation
 - Security notes
 
-### 9. Show Tests
+### 10. Show Tests
 
 Action:
 
@@ -181,14 +196,13 @@ Requirement evidence:
 
 - RR1-FLASK pytest validation
 
-### 10. Close With Scope Control
+### 11. Close With Scope Control
 
 Explain deferred items:
 
 - Secure notes
 - Voice notes
 - Version history
-- Search
 - Cloud sync
 - OAuth
 - AI summarization

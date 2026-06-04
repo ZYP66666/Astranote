@@ -27,6 +27,8 @@ The final MVP will allow local users to:
 - Open saved notes
 - Edit notes
 - Delete notes with confirmation
+- Search their own notes by keyword
+- Avoid access to another user's notes
 - Preserve Markdown-compatible text
 - Reopen notes from SQLite storage
 
@@ -50,7 +52,7 @@ The final MVP will allow local users to:
 
 - AstraNotes remains local-first.
 - Notes remain the core product object.
-- Create/open/edit/delete/save remain the main MVP workflows.
+- Register/login and create/open/edit/delete/search/save remain the main MVP workflows.
 - Markdown preservation remains important.
 - MVC/separation of concerns remains a design requirement.
 - Testing and traceability remain part of the Definition of Done.
@@ -91,6 +93,6 @@ Create and manage local Markdown-compatible notes with basic user separation, SQ
 
 ## Current Status
 
-Implementation has started with the initial runnable Flask skeleton. The repository now includes `src/app.py`, registered auth and note blueprints, SQLite schema/init helpers, Jinja placeholder templates, CSS, service/repository placeholders, and a small pytest baseline.
+Implementation has started with the initial runnable Flask skeleton and FR-1 local authentication slice. The repository now includes `src/app.py`, registered auth and note blueprints, SQLite schema/init helpers, Jinja templates, CSS, implemented user repository/auth service behavior, Flask session handling, and pytest coverage for registration/login/logout.
 
-The next phase is to implement the first real feature slice: local registration/login with password hashing and session handling. Note CRUD remains scaffolded for later follow-up tasks.
+The next phase is to implement FR-2 and FR-3: create notes and list/view/open the logged-in user's own notes. Edit, delete, search, cross-user note protection, and Markdown persistence tests remain follow-up slices.

@@ -43,7 +43,8 @@ AI helped draft or critique:
 The final package reflects several human-controlled decisions:
 
 - The final implementation stack is Python/Flask/SQLite/pytest, even though old PDFs selected C++17.
-- Secure notes, voice notes, version history, SearchIndex, cloud sync, and plugin systems were deferred.
+- Secure notes, voice notes, version history, cloud sync, and plugin systems were deferred.
+- The earlier weak SearchIndex idea was narrowed into final FR-6: simple SQLite keyword search over the current user's notes.
 - The app remains local-running and reviewable rather than becoming cloud/enterprise-heavy.
 - Testing remains focused on requirement behavior rather than UI decoration.
 - Basic multi-user support was added because the final implementation prompt requires it.
@@ -57,7 +58,7 @@ The final package reflects several human-controlled decisions:
 | Secure-note encryption | Deferred | Important but explicitly not implemented now. |
 | Voice notes | Deferred | Future extension only. |
 | Full plugin system | Deferred | Overbuilt for MVP. |
-| SearchIndex | Deferred/remove | Earlier traceability found weak justification. |
+| Dedicated SearchIndex | Deferred | Search is now a scoped MVP requirement, but should be implemented later as simple SQLite search. |
 | UI color/layout tests | Rejected as first tests | Noisy and not core requirement behavior. |
 
 ## Validation Checklist
