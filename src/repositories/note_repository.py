@@ -32,6 +32,23 @@ class NoteRepository:
         ).fetchall()
         return [self._to_note(row) for row in rows]
 
+    def search_for_user(self, user_id, keyword):
+        keyword = (keyword or "").strip()
+        if not keyword:
+            return self.list_for_user(user_id)
+
+        pattern = f"%{keyword}%"
+        rows = self.connection_factory().execute(
+            """
+            SELECT id, user_id, title, content, created_at, updated_at
+            FROM notes
+            WHERE user_id = ? AND (title LIKE ? OR content LIKE ?)
+            ORDER BY updated_at DESC, id DESC
+            """,
+            (user_id, pattern, pattern),
+        ).fetchall()
+        return [self._to_note(row) for row in rows]
+
     def find_for_user(self, note_id, user_id):
         row = self.connection_factory().execute(
             """

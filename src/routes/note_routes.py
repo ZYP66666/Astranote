@@ -11,10 +11,12 @@ note_service = NoteService()
 @note_bp.route("/")
 @login_required
 def list_notes():
-    result = note_service.list_notes_for_user(g.user.id)
+    query = request.args.get("q", "")
+    result = note_service.search_notes_for_user(g.user.id, query)
     return render_template(
         "notes.html",
         notes=result.notes,
+        query=query,
     )
 
 

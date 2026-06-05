@@ -31,6 +31,10 @@ class NoteService:
         notes = self.note_repository.list_for_user(user_id)
         return NoteResult(True, "Notes loaded.", notes=notes)
 
+    def search_notes_for_user(self, user_id, keyword):
+        notes = self.note_repository.search_for_user(user_id, keyword)
+        return NoteResult(True, "Notes loaded.", notes=notes)
+
     def get_note_for_user(self, note_id, user_id):
         note = self.note_repository.find_for_user(note_id, user_id)
         if note is None:

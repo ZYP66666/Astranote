@@ -363,3 +363,85 @@ def test_user_cannot_delete_another_users_note(client):
 
     assert detail_response.status_code == 200
     assert b"Alex-only content" in detail_response.data
+
+
+def test_logged_in_user_can_search_by_title(auth_client):
+    client = auth_client()
+    client.post("/notes/new", data={"title": "Sprint Plan", "content": "alpha"})
+    client.post("/notes/new", data={"title": "Architecture Notes", "content": "beta"})
+
+    response = client.get("/notes/?q=Sprint")
+
+    assert response.status_code == 200
+    assert b"Sprint Plan" in response.data
+    assert b"Architecture Notes" not in response.data
+
+
+def test_logged_in_user_can_search_by_content(auth_client):
+    client = auth_client()
+    client.post("/notes/new", data={"title": "Planning", "content": "MVC boundaries"})
+    client.post("/notes/new", data={"title": "Other", "content": "No matching term"})
+
+    response = client.get("/notes/?q=MVC")
+
+    assert response.status_code == 200
+    assert b"Planning" in response.data
+    assert b"Other" not in response.data
+
+
+def test_no_match_search_shows_empty_state(auth_client):
+    client = auth_client()
+    client.post("/notes/new", data={"title": "Planning", "content": "MVC boundaries"})
+
+    response = client.get("/notes/?q=missing")
+
+    assert response.status_code == 200
+    assert b"No notes match your search." in response.data
+    assert b"Planning" not in response.data
+
+
+def test_empty_search_shows_all_current_user_notes(auth_client):
+    client = auth_client()
+    client.post("/notes/new", data={"title": "First", "content": "alpha"})
+    client.post("/notes/new", data={"title": "Second", "content": "beta"})
+
+    response = client.get("/notes/?q=")
+
+    assert response.status_code == 200
+    assert b"First" in response.data
+    assert b"Second" in response.data
+
+
+def test_search_does_not_show_another_users_notes(client):
+    client.post(
+        "/auth/register",
+        data={"username": "alex", "password": "secret-password"},
+    )
+    client.post(
+        "/auth/login",
+        data={"username": "alex", "password": "secret-password"},
+    )
+    client.post(
+        "/notes/new",
+        data={"title": "Shared Keyword", "content": "Alex-only content"},
+    )
+    client.post("/auth/logout")
+
+    client.post(
+        "/auth/register",
+        data={"username": "blair", "password": "secret-password"},
+    )
+    client.post(
+        "/auth/login",
+        data={"username": "blair", "password": "secret-password"},
+    )
+    client.post(
+        "/notes/new",
+        data={"title": "Different", "content": "Blair content"},
+    )
+
+    response = client.get("/notes/?q=Shared")
+
+    assert response.status_code == 200
+    assert b"No notes match your search." in response.data
+    assert b"Alex-only content" not in response.data

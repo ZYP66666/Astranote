@@ -44,7 +44,7 @@ http://127.0.0.1:5000
 python -m pytest
 ```
 
-The current implementation supports FR-1 registration/login/logout, FR-2 note creation, FR-3 list/view/open own notes, FR-4 edit own notes, and FR-5 delete own notes with confirmation. Search demo steps will become executable after a later implementation slice.
+The current implementation supports FR-1 registration/login/logout, FR-2 note creation, FR-3 list/view/open own notes, FR-4 edit own notes, FR-5 delete own notes with confirmation, and FR-6 search own notes.
 
 ## Demo Walkthrough
 
@@ -163,6 +163,8 @@ Expected result:
 
 - Matching notes owned by the current user are shown.
 - Notes owned by other users are not shown.
+- Empty search shows all notes owned by the current user.
+- A no-match search shows a clear empty state.
 
 Requirement evidence:
 
@@ -194,7 +196,7 @@ Action:
 Expected result:
 
 - Tests pass for auth, note CRUD, Markdown preservation, and ownership checks.
-- At this stage, search tests are still future work.
+- Search tests are included in the automated suite.
 
 Requirement evidence:
 

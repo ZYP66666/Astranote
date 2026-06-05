@@ -181,3 +181,57 @@ def test_note_repository_delete_does_not_delete_another_users_note(app):
     assert deleted is False
     assert still_exists is not None
     assert still_exists.title == "Alex Note"
+
+
+def test_note_repository_search_finds_notes_by_title_for_current_user(app):
+    with app.app_context():
+        user = UserRepository().create_user("alex", "hashed-password")
+        repository = NoteRepository()
+        repository.create(user.id, "Sprint Planning", "alpha")
+        repository.create(user.id, "Architecture Notes", "beta")
+
+        results = repository.search_for_user(user.id, "Sprint")
+
+    assert [note.title for note in results] == ["Sprint Planning"]
+
+
+def test_note_repository_search_finds_notes_by_content_for_current_user(app):
+    with app.app_context():
+        user = UserRepository().create_user("alex", "hashed-password")
+        repository = NoteRepository()
+        repository.create(user.id, "Planning", "Discuss MVC layers")
+        repository.create(user.id, "Other", "No matching term")
+
+        results = repository.search_for_user(user.id, "MVC")
+
+    assert [note.title for note in results] == ["Planning"]
+
+
+def test_note_repository_search_does_not_return_another_users_notes(app):
+    with app.app_context():
+        user_repository = UserRepository()
+        alex = user_repository.create_user("alex", "first-hash")
+        blair = user_repository.create_user("blair", "second-hash")
+        note_repository = NoteRepository()
+        note_repository.create(alex.id, "Shared Keyword", "alpha")
+        note_repository.create(blair.id, "Shared Keyword", "beta")
+
+        results = note_repository.search_for_user(alex.id, "Shared")
+
+    assert len(results) == 1
+    assert results[0].user_id == alex.id
+
+
+def test_note_repository_empty_search_returns_all_notes_for_user(app):
+    with app.app_context():
+        user_repository = UserRepository()
+        alex = user_repository.create_user("alex", "first-hash")
+        blair = user_repository.create_user("blair", "second-hash")
+        note_repository = NoteRepository()
+        note_repository.create(alex.id, "First", "alpha")
+        note_repository.create(alex.id, "Second", "beta")
+        note_repository.create(blair.id, "Third", "gamma")
+
+        results = note_repository.search_for_user(alex.id, "")
+
+    assert {note.title for note in results} == {"First", "Second"}
