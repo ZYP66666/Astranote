@@ -177,6 +177,17 @@ button {
     background: #52616b;
 }
 
+.button.danger,
+button.danger {
+    background: #b42318;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
 form {
     display: grid;
     gap: 0.8rem;

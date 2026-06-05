@@ -17,9 +17,9 @@ The original course artifacts explored a C++17 local-first desktop direction. Th
 
 ## Current Implementation Status
 
-FR-1 local registration/login/logout, FR-2/FR-3 create/list/view own notes, and FR-4 edit own notes are implemented. Notes are stored in SQLite with user ownership, timestamps, and exact text content preservation.
+FR-1 local registration/login/logout, FR-2/FR-3 create/list/view own notes, FR-4 edit own notes, and FR-5 delete own notes with confirmation are implemented. Notes are stored in SQLite with user ownership, timestamps, and exact text content preservation.
 
-The app does not yet implement note deletion, note search, secure notes, version history, cloud sync, OAuth, Docker, Kubernetes, enterprise admin, billing, AI summarization, or collaborative editing.
+The app does not yet implement note search, secure notes, version history, cloud sync, OAuth, Docker, Kubernetes, enterprise admin, billing, AI summarization, or collaborative editing.
 
 ## Repository Structure
 
@@ -104,7 +104,7 @@ This creates the configured local SQLite database and applies `src/db/schema.sql
 python -m pytest
 ```
 
-The current tests cover skeleton smoke behavior, SQLite schema initialization, user and note repository behavior, AuthService validation/authentication, NoteService validation/ownership behavior, password hashing, register/login/logout routing, protected notes access, note creation, own-note listing/viewing, note editing, cross-user note blocking, duplicate-prevention on edit, timestamp updates, and Markdown-like content preservation.
+The current tests cover skeleton smoke behavior, SQLite schema initialization, user and note repository behavior, AuthService validation/authentication, NoteService validation/ownership behavior, password hashing, register/login/logout routing, protected notes access, note creation, own-note listing/viewing, note editing, confirmed note deletion, cross-user note blocking, duplicate-prevention on edit, timestamp updates, and Markdown-like content preservation.
 
 ## Instructor Review Path
 

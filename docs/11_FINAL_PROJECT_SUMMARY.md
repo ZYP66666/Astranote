@@ -93,6 +93,6 @@ Create and manage local Markdown-compatible notes with basic user separation, SQ
 
 ## Current Status
 
-Implementation has progressed through the Flask skeleton, FR-1 local authentication, FR-2 note creation, FR-3 list/view/open own notes, and FR-4 edit own notes. The repository now includes `src/app.py`, registered auth and note blueprints, SQLite schema/init helpers, Jinja templates, CSS, implemented user and note repository/service behavior, Flask session handling, and pytest coverage for registration/login/logout plus create/list/view/edit notes.
+Implementation has progressed through the Flask skeleton, FR-1 local authentication, FR-2 note creation, FR-3 list/view/open own notes, FR-4 edit own notes, and FR-5 delete own notes with confirmation. The repository now includes `src/app.py`, registered auth and note blueprints, SQLite schema/init helpers, Jinja templates, CSS, implemented user and note repository/service behavior, Flask session handling, and pytest coverage for registration/login/logout plus create/list/view/edit/delete notes.
 
-The next phase is to implement FR-5: delete the logged-in user's own notes with confirmation. Search and delete/search ownership checks remain follow-up slices.
+The next phase is to implement FR-6: search the logged-in user's own notes by keyword in title or content. Search ownership checks remain the main follow-up slice.
