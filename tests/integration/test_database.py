@@ -1,4 +1,5 @@
 from src.db.database import connect_database, init_database
+from src.repositories.note_repository import NoteRepository
 from src.repositories.user_repository import DuplicateUsernameError, UserRepository
 
 
@@ -63,3 +64,45 @@ def test_user_repository_rejects_duplicate_username(app):
             duplicate_was_rejected = False
 
     assert duplicate_was_rejected is True
+
+
+def test_note_repository_can_create_and_find_note_by_id(app):
+    markdown_content = "# Title\n- item"
+    with app.app_context():
+        user = UserRepository().create_user("alex", "hashed-password")
+        repository = NoteRepository()
+        created_note = repository.create(user.id, "Markdown Note", markdown_content)
+        found_note = repository.find_for_user(created_note.id, user.id)
+
+    assert found_note.id == created_note.id
+    assert found_note.user_id == user.id
+    assert found_note.title == "Markdown Note"
+    assert found_note.content == markdown_content
+
+
+def test_note_repository_lists_notes_by_user_id(app):
+    with app.app_context():
+        user_repository = UserRepository()
+        alex = user_repository.create_user("alex", "first-hash")
+        blair = user_repository.create_user("blair", "second-hash")
+        note_repository = NoteRepository()
+        alex_note = note_repository.create(alex.id, "Alex Note", "alpha")
+        note_repository.create(blair.id, "Blair Note", "beta")
+
+        alex_notes = note_repository.list_for_user(alex.id)
+
+    assert [note.id for note in alex_notes] == [alex_note.id]
+    assert alex_notes[0].title == "Alex Note"
+
+
+def test_note_repository_does_not_find_note_for_wrong_user(app):
+    with app.app_context():
+        user_repository = UserRepository()
+        alex = user_repository.create_user("alex", "first-hash")
+        blair = user_repository.create_user("blair", "second-hash")
+        note_repository = NoteRepository()
+        alex_note = note_repository.create(alex.id, "Alex Note", "alpha")
+
+        wrong_user_result = note_repository.find_for_user(alex_note.id, blair.id)
+
+    assert wrong_user_result is None

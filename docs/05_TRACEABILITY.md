@@ -17,15 +17,15 @@ This document preserves the traceability discipline from the course artifacts wh
 | Requirement | User Story | Design Element | Implementation Target | Test Target | Status |
 | --- | --- | --- | --- | --- | --- |
 | FR-1 Register/login | Story 0 | User, AuthService, UserRepository, Flask session | `/auth/register`, `/auth/login`, `/auth/logout` | Validation, duplicate username, password hash, valid/invalid login, route flow | Implemented |
-| FR-2 Create note | Story 1 | Note, NoteService, NoteRepository | `/notes/new`, SQLite insert | Reject blank title, create valid note | Scaffolded route/template only |
-| FR-3 List/view/open own notes | Story 2 | NoteService, NoteRepository, notes templates | `/notes/`, `/notes/<id>` | List only current user's notes, open saved note | Protected workspace scaffolded |
+| FR-2 Create note | Story 1 | Note, NoteService, NoteRepository | `/notes/new`, SQLite insert | Reject blank title, create valid note | Implemented |
+| FR-3 List/view/open own notes | Story 2 | NoteService, NoteRepository, notes templates | `/notes/`, `/notes/<id>` | List only current user's notes, open saved note | Implemented |
 | FR-4 Edit own notes | Story 3 | NoteService update path | `/notes/<id>/edit` | Update without duplicate, preserve ownership | Planned |
 | FR-5 Delete own notes | Story 4 | NoteService delete path | `/notes/<id>/delete` | Confirm delete, cancel leaves note | Planned |
 | FR-6 Search own notes | Story 7 | NoteService search path, NoteRepository query | `/notes/search` | Search title/content and scope to current user | Planned |
-| FR-7 Block cross-user note access | Story 6 | AuthService session, NoteService ownership checks | All note routes and repository queries | User A cannot access User B's notes | Auth foundation implemented; note checks planned |
-| FR-8 Markdown preservation | Story 5 | Note content field | Textarea and SQLite text column | Markdown saved/reloaded exactly | Scaffolded form field/schema only |
+| FR-7 Block cross-user note access | Story 6 | AuthService session, NoteService ownership checks | All note routes and repository queries | User A cannot access User B's notes | Implemented for list/view/open; edit/delete/search planned |
+| FR-8 Markdown preservation | Story 5 | Note content field | Textarea and SQLite text column | Markdown saved/reloaded exactly | Implemented for create/view; edit tests planned |
 | GR1 MVC separation | All stories | Routes, services, repositories, templates | App package structure | Service/repository tests avoid UI dependency | Skeleton implemented |
-| RR1-FLASK pytest validation | All stories | pytest suite | `tests/` | Unit, integration, route tests | Auth, smoke, and database baseline implemented |
+| RR1-FLASK pytest validation | All stories | pytest suite | `tests/` | Unit, integration, route tests | Auth, create/list/view notes, smoke, and database baseline implemented |
 
 ## Deferred Traceability Items
 
@@ -46,9 +46,9 @@ This document preserves the traceability discipline from the course artifacts wh
 - Deferred requirements should not appear as half-built code.
 - New scope should be added only after updating requirements and traceability.
 
-## Skeleton Implementation Note
+## Implementation Status Note
 
-The current codebase has a runnable Flask app, implemented FR-1 auth routes, session handling, user persistence, password hashing, protected notes placeholder routes, SQLite schema initialization, service/repository placeholders for notes, and pytest coverage for the implemented auth slice. Note CRUD and search are intentionally not implemented yet.
+The current codebase has a runnable Flask app, implemented FR-1 auth routes, session handling, user persistence, password hashing, FR-2 note creation, FR-3 own-note list/view/open behavior, SQLite schema initialization, service/repository ownership checks for notes, and pytest coverage for the implemented auth and note slices. Edit, delete, and search are intentionally not implemented yet.
 
 ## Migration From Old C++ Path
 

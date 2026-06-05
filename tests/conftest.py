@@ -29,3 +29,19 @@ def app(tmp_path):
 @pytest.fixture
 def client(app):
     return app.test_client()
+
+
+@pytest.fixture
+def auth_client(client):
+    def register_and_login(username="alex", password="secret-password"):
+        client.post(
+            "/auth/register",
+            data={"username": username, "password": password},
+        )
+        client.post(
+            "/auth/login",
+            data={"username": username, "password": password},
+        )
+        return client
+
+    return register_and_login

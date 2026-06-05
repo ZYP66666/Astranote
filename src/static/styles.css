@@ -75,6 +75,50 @@ body {
     padding: 1.5rem;
 }
 
+.workspace-header,
+.note-detail-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.note-list {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+}
+
+.note-list li {
+    border-top: 1px solid #d9e2ec;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0;
+}
+
+.note-list a {
+    color: #1d4ed8;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.note-list span,
+.note-detail-header p,
+.empty-state {
+    color: #52616b;
+}
+
+.note-content {
+    background: #f8fafc;
+    border: 1px solid #d9e2ec;
+    border-radius: 6px;
+    font-family: Consolas, "Courier New", monospace;
+    overflow-x: auto;
+    padding: 1rem;
+    white-space: pre-wrap;
+}
+
 .notice {
     background: #fff8db;
     border: 1px solid #f0d86a;
@@ -153,6 +197,12 @@ textarea {
 @media (max-width: 640px) {
     .nav {
         align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .workspace-header,
+    .note-detail-header,
+    .note-list li {
         flex-direction: column;
     }
 }
