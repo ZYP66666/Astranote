@@ -44,7 +44,7 @@ http://127.0.0.1:5000
 python -m pytest
 ```
 
-The current implementation supports FR-1 registration/login/logout, FR-2 note creation, FR-3 list/view/open own notes, and FR-4 edit own notes. Delete and search demo steps will become executable after later implementation slices.
+The current implementation supports FR-1 registration/login/logout, FR-2 note creation, FR-3 list/view/open own notes, FR-4 edit own notes, and FR-5 delete own notes with confirmation. Search demo steps will become executable after a later implementation slice.
 
 ## Demo Walkthrough
 
@@ -147,6 +147,7 @@ Action:
 Expected result:
 
 - Note is removed from the user's list.
+- Opening the deleted note returns a controlled not-found response.
 
 Requirement evidence:
 
@@ -193,7 +194,7 @@ Action:
 Expected result:
 
 - Tests pass for auth, note CRUD, Markdown preservation, and ownership checks.
-- At this stage, delete/search tests are still future work.
+- At this stage, search tests are still future work.
 
 Requirement evidence:
 

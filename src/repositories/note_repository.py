@@ -58,6 +58,15 @@ class NoteRepository:
             return None
         return self.find_for_user(note_id, user_id)
 
+    def delete_for_user(self, note_id, user_id):
+        database = self.connection_factory()
+        cursor = database.execute(
+            "DELETE FROM notes WHERE id = ? AND user_id = ?",
+            (note_id, user_id),
+        )
+        database.commit()
+        return cursor.rowcount > 0
+
     @staticmethod
     def _to_note(row):
         if row is None:

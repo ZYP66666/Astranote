@@ -88,3 +88,33 @@ def test_note_service_does_not_update_another_users_note(app):
     assert result.note is None
     assert unchanged.title == "Private"
     assert unchanged.content == "Alex-only content"
+
+
+def test_note_service_deletes_existing_note_for_owner(app):
+    with app.app_context():
+        user = AuthService().register_user("alex", "secret-password").user
+        service = NoteService()
+        note = service.create_note(user.id, "Delete Me", "content").note
+
+        result = service.delete_note(note.id, user.id)
+        after_delete = service.get_note_for_user(note.id, user.id)
+
+    assert result.success is True
+    assert result.message == "Note deleted."
+    assert after_delete.success is False
+
+
+def test_note_service_refuses_delete_for_unowned_note(app):
+    with app.app_context():
+        auth_service = AuthService()
+        alex = auth_service.register_user("alex", "secret-password").user
+        blair = auth_service.register_user("blair", "secret-password").user
+        service = NoteService()
+        alex_note = service.create_note(alex.id, "Private", "Alex-only content").note
+
+        result = service.delete_note(alex_note.id, blair.id)
+        still_exists = service.get_note_for_user(alex_note.id, alex.id)
+
+    assert result.success is False
+    assert result.message == "Note not found."
+    assert still_exists.success is True

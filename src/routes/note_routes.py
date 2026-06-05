@@ -88,3 +88,20 @@ def edit_note(note_id):
         title=existing_result.note.title,
         content=existing_result.note.content,
     )
+
+
+@note_bp.route("/<int:note_id>/delete", methods=["GET", "POST"])
+@login_required
+def delete_note(note_id):
+    existing_result = note_service.get_note_for_user(note_id, g.user.id)
+    if not existing_result.success:
+        abort(404, description=existing_result.message)
+
+    if request.method == "POST":
+        result = note_service.delete_note(note_id, g.user.id)
+        if not result.success:
+            abort(404, description=result.message)
+        flash(result.message, "success")
+        return redirect(url_for("notes.list_notes"))
+
+    return render_template("note_delete_confirm.html", note=existing_result.note)

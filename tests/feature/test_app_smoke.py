@@ -251,3 +251,115 @@ def test_markdown_like_content_is_preserved_after_edit(auth_client):
 
     assert response.status_code == 200
     assert b"# Updated\n- item" in response.data
+
+
+def test_logged_out_user_is_redirected_from_delete_route(client):
+    response = client.get("/notes/1/delete")
+
+    assert response.status_code == 302
+    assert "/auth/login" in response.headers["Location"]
+
+
+def test_logged_in_user_can_reach_delete_confirmation_for_own_note(auth_client):
+    client = auth_client()
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Delete Candidate", "content": "content"},
+    )
+    note_location = create_response.headers["Location"]
+
+    response = client.get(f"{note_location}/delete")
+
+    assert response.status_code == 200
+    assert b"Delete Note" in response.data
+    assert b"Delete Candidate" in response.data
+    assert b"Cancel" in response.data
+
+
+def test_delete_confirmation_does_not_delete_until_post(auth_client):
+    client = auth_client()
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Keep Me", "content": "content"},
+    )
+    note_location = create_response.headers["Location"]
+
+    confirmation_response = client.get(f"{note_location}/delete")
+    detail_response = client.get(note_location)
+
+    assert confirmation_response.status_code == 200
+    assert b"Cancel" in confirmation_response.data
+    assert detail_response.status_code == 200
+    assert b"Keep Me" in detail_response.data
+
+
+def test_confirmed_delete_removes_note_from_list(auth_client):
+    client = auth_client()
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Delete Candidate", "content": "content"},
+    )
+    note_location = create_response.headers["Location"]
+
+    delete_response = client.post(f"{note_location}/delete", follow_redirects=True)
+
+    assert delete_response.status_code == 200
+    assert b"Note deleted." in delete_response.data
+    assert b"Delete Candidate" not in delete_response.data
+    assert b"No notes yet." in delete_response.data
+
+
+def test_deleted_note_detail_returns_404(auth_client):
+    client = auth_client()
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Delete Candidate", "content": "content"},
+    )
+    note_location = create_response.headers["Location"]
+
+    client.post(f"{note_location}/delete")
+    response = client.get(note_location)
+
+    assert response.status_code == 404
+
+
+def test_user_cannot_delete_another_users_note(client):
+    client.post(
+        "/auth/register",
+        data={"username": "alex", "password": "secret-password"},
+    )
+    client.post(
+        "/auth/login",
+        data={"username": "alex", "password": "secret-password"},
+    )
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Private Note", "content": "Alex-only content"},
+    )
+    note_location = create_response.headers["Location"]
+    client.post("/auth/logout")
+
+    client.post(
+        "/auth/register",
+        data={"username": "blair", "password": "secret-password"},
+    )
+    client.post(
+        "/auth/login",
+        data={"username": "blair", "password": "secret-password"},
+    )
+
+    get_response = client.get(f"{note_location}/delete")
+    post_response = client.post(f"{note_location}/delete")
+
+    assert get_response.status_code == 404
+    assert post_response.status_code == 404
+
+    client.post("/auth/logout")
+    client.post(
+        "/auth/login",
+        data={"username": "alex", "password": "secret-password"},
+    )
+    detail_response = client.get(note_location)
+
+    assert detail_response.status_code == 200
+    assert b"Alex-only content" in detail_response.data

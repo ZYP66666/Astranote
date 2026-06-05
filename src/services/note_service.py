@@ -47,3 +47,9 @@ class NoteService:
         if note is None:
             return NoteResult(False, "Note not found.")
         return NoteResult(True, "Note updated.", note=note)
+
+    def delete_note(self, note_id, user_id):
+        deleted = self.note_repository.delete_for_user(note_id, user_id)
+        if not deleted:
+            return NoteResult(False, "Note not found.")
+        return NoteResult(True, "Note deleted.")

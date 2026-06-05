@@ -152,3 +152,32 @@ def test_note_repository_does_not_update_note_for_wrong_user(app):
     assert wrong_user_result is None
     assert unchanged_note.title == "Alex Note"
     assert unchanged_note.content == "alpha"
+
+
+def test_note_repository_deletes_note_by_id_and_user_id(app):
+    with app.app_context():
+        user = UserRepository().create_user("alex", "hashed-password")
+        repository = NoteRepository()
+        note = repository.create(user.id, "Delete Me", "content")
+
+        deleted = repository.delete_for_user(note.id, user.id)
+        after_delete = repository.find_for_user(note.id, user.id)
+
+    assert deleted is True
+    assert after_delete is None
+
+
+def test_note_repository_delete_does_not_delete_another_users_note(app):
+    with app.app_context():
+        user_repository = UserRepository()
+        alex = user_repository.create_user("alex", "first-hash")
+        blair = user_repository.create_user("blair", "second-hash")
+        note_repository = NoteRepository()
+        alex_note = note_repository.create(alex.id, "Alex Note", "alpha")
+
+        deleted = note_repository.delete_for_user(alex_note.id, blair.id)
+        still_exists = note_repository.find_for_user(alex_note.id, alex.id)
+
+    assert deleted is False
+    assert still_exists is not None
+    assert still_exists.title == "Alex Note"

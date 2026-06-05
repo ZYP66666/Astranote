@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Delete {{ note.title }} - AstraNotes{% endblock %}
+
+{% block content %}
+  <section class="panel">
+    <h1>Delete Note</h1>
+    <p>Delete "{{ note.title }}"?</p>
+    <p>This action cannot be undone.</p>
+    <form method="post">
+      <div class="form-actions">
+        <button class="danger" type="submit">Delete Note</button>
+        <a class="button secondary" href="{{ url_for('notes.view_note', note_id=note.id) }}">Cancel</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}
