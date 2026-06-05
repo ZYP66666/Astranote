@@ -9,7 +9,10 @@
         <h1>{{ note.title }}</h1>
         <p>Created {{ note.created_at }} - Updated {{ note.updated_at }}</p>
       </div>
-      <a class="button secondary" href="{{ url_for('notes.list_notes') }}">Back To Notes</a>
+      <div class="note-actions">
+        <a class="button" href="{{ url_for('notes.edit_note', note_id=note.id) }}">Edit</a>
+        <a class="button secondary" href="{{ url_for('notes.list_notes') }}">Back To Notes</a>
+      </div>
     </div>
     <pre class="note-content">{{ note.content }}</pre>
   </article>

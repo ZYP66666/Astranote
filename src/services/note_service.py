@@ -36,3 +36,14 @@ class NoteService:
         if note is None:
             return NoteResult(False, "Note not found.")
         return NoteResult(True, "Note loaded.", note=note)
+
+    def update_note(self, note_id, user_id, title, content):
+        title = (title or "").strip()
+        content = "" if content is None else content
+        if not title:
+            return NoteResult(False, "Title is required.")
+
+        note = self.note_repository.update_for_user(note_id, user_id, title, content)
+        if note is None:
+            return NoteResult(False, "Note not found.")
+        return NoteResult(True, "Note updated.", note=note)

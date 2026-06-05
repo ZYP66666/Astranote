@@ -13,7 +13,7 @@ This document adapts the Week 7.2 testing strategy to pytest and the Flask MVP. 
 
 ## Testing Approach
 
-Testing will be shift-left and incremental. The current implemented tests validate FR-1 local authentication, FR-2 note creation, the first part of FR-3 list/view/open own notes, and the Flask/SQLite skeleton. Later tests should expand into edit, delete, and search one feature slice at a time.
+Testing will be shift-left and incremental. The current implemented tests validate FR-1 local authentication, FR-2 note creation, FR-3 list/view/open own notes, FR-4 edit own notes, and the Flask/SQLite skeleton. Later tests should expand into delete and search one feature slice at a time.
 
 - Register/login/logout
 - Create a text note
@@ -30,13 +30,13 @@ Testing will be shift-left and incremental. The current implemented tests valida
 
 | Level | Purpose | First Targets |
 | --- | --- | --- |
-| Unit tests | Validate service validation rules without full UI. | Auth validation and note create/open ownership now; edit/delete/search later. |
-| Repository tests | Validate SQLite interactions using temporary databases. | User create/find and note create/list/find now; search later. |
-| Route tests | Validate Flask request/response workflows. | Register/login/logout and create/list/view notes now; edit/delete/search later. |
+| Unit tests | Validate service validation rules without full UI. | Auth validation and note create/open/edit ownership now; delete/search later. |
+| Repository tests | Validate SQLite interactions using temporary databases. | User create/find and note create/list/find/update now; search later. |
+| Route tests | Validate Flask request/response workflows. | Register/login/logout and create/list/view/edit notes now; delete/search later. |
 | Feature/demo checks | Validate visible user workflows. | Final demo script walkthrough. |
 | AI-native critique | Ask AI to suggest missing edge cases, then review manually. | Invalid input, unauthorized access, storage failures. |
 
-## Current FR-1 Through FR-3 pytest Coverage
+## Current FR-1 Through FR-4 pytest Coverage
 
 | Test Area | Expected Result |
 | --- | --- |
@@ -56,16 +56,20 @@ Testing will be shift-left and incremental. The current implemented tests valida
 | Note ownership | Another user's note is not returned by service/repository/view route. |
 | Note route create/list/view | Logged-in users can create, list, and open their own notes. |
 | Markdown-like content | Content such as `# Title` and `- item` is preserved exactly as typed. |
+| NoteService edit validation | Empty edit title is rejected with a clear message. |
+| NoteService edit success | Existing owner note updates title and content. |
+| NoteRepository update | Title, content, and `updated_at` update without creating a duplicate note. |
+| Edit ownership | User A cannot edit User B's note through repository, service, or route behavior. |
+| Edit route workflow | Logged-in users can open a prefilled edit form and save changes. |
+| Markdown-like edit content | Content such as `# Updated` and `- item` is preserved exactly after edit. |
 
 ## Future pytest Test Set
 
 | Test ID | Feature | Level | Expected Result |
 | --- | --- | --- | --- |
-| T1 | FR-4 edit note | Service/route | Existing note updates without duplicate record. |
-| T2 | FR-5 delete note | Route/repository | Confirmed delete removes the note. |
-| T3 | FR-6 search notes | Service/repository/route | Search results are scoped to current user. |
-| T4 | FR-7 user isolation | Service/route | Edit/delete/search cannot access another user's notes. |
-| T5 | FR-8 Markdown preservation on edit | Repository/integration | Edited Markdown text reloads exactly as saved. |
+| T1 | FR-5 delete note | Route/repository | Confirmed delete removes the note. |
+| T2 | FR-6 search notes | Service/repository/route | Search results are scoped to current user. |
+| T3 | FR-7 user isolation | Service/route | Delete/search cannot access another user's notes. |
 
 ## pytest Fixtures Needed Later
 

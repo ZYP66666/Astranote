@@ -1,3 +1,5 @@
+from time import sleep
+
 from src.db.database import connect_database, init_database
 from src.repositories.note_repository import NoteRepository
 from src.repositories.user_repository import DuplicateUsernameError, UserRepository
@@ -106,3 +108,47 @@ def test_note_repository_does_not_find_note_for_wrong_user(app):
         wrong_user_result = note_repository.find_for_user(alex_note.id, blair.id)
 
     assert wrong_user_result is None
+
+
+def test_note_repository_updates_title_content_and_updated_at_without_duplicate(app):
+    with app.app_context():
+        user = UserRepository().create_user("alex", "hashed-password")
+        repository = NoteRepository()
+        created_note = repository.create(user.id, "Original", "content")
+        original_updated_at = created_note.updated_at
+
+        sleep(1.1)
+        updated_note = repository.update_for_user(
+            created_note.id,
+            user.id,
+            "Updated",
+            "# Updated\n- item",
+        )
+        notes = repository.list_for_user(user.id)
+
+    assert updated_note.id == created_note.id
+    assert updated_note.title == "Updated"
+    assert updated_note.content == "# Updated\n- item"
+    assert updated_note.updated_at != original_updated_at
+    assert len(notes) == 1
+
+
+def test_note_repository_does_not_update_note_for_wrong_user(app):
+    with app.app_context():
+        user_repository = UserRepository()
+        alex = user_repository.create_user("alex", "first-hash")
+        blair = user_repository.create_user("blair", "second-hash")
+        note_repository = NoteRepository()
+        alex_note = note_repository.create(alex.id, "Alex Note", "alpha")
+
+        wrong_user_result = note_repository.update_for_user(
+            alex_note.id,
+            blair.id,
+            "Changed",
+            "beta",
+        )
+        unchanged_note = note_repository.find_for_user(alex_note.id, alex.id)
+
+    assert wrong_user_result is None
+    assert unchanged_note.title == "Alex Note"
+    assert unchanged_note.content == "alpha"
