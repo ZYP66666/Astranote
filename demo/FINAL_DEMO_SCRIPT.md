@@ -44,7 +44,7 @@ http://127.0.0.1:5000
 python -m pytest
 ```
 
-The current implementation supports FR-1 registration/login/logout, FR-2 note creation, and FR-3 list/view/open own notes. Edit, delete, and search demo steps will become executable after later implementation slices.
+The current implementation supports FR-1 registration/login/logout, FR-2 note creation, FR-3 list/view/open own notes, and FR-4 edit own notes. Delete and search demo steps will become executable after later implementation slices.
 
 ## Demo Walkthrough
 
@@ -131,6 +131,7 @@ Expected result:
 
 - Updated content appears.
 - No duplicate note is created.
+- Markdown-like text remains exactly as typed.
 
 Requirement evidence:
 
@@ -192,7 +193,7 @@ Action:
 Expected result:
 
 - Tests pass for auth, note CRUD, Markdown preservation, and ownership checks.
-- At this stage, edit/delete/search tests are still future work.
+- At this stage, delete/search tests are still future work.
 
 Requirement evidence:
 

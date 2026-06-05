@@ -54,3 +54,37 @@ def view_note(note_id):
     if not result.success:
         abort(404, description=result.message)
     return render_template("note_detail.html", note=result.note)
+
+
+@note_bp.route("/<int:note_id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_note(note_id):
+    existing_result = note_service.get_note_for_user(note_id, g.user.id)
+    if not existing_result.success:
+        abort(404, description=existing_result.message)
+
+    if request.method == "POST":
+        result = note_service.update_note(
+            note_id,
+            g.user.id,
+            request.form.get("title"),
+            request.form.get("content"),
+        )
+        if result.success:
+            flash(result.message, "success")
+            return redirect(url_for("notes.view_note", note_id=result.note.id))
+
+        flash(result.message, "error")
+        return render_template(
+            "note_form.html",
+            form_title="Edit Note",
+            title=request.form.get("title", ""),
+            content=request.form.get("content", ""),
+        ), 400
+
+    return render_template(
+        "note_form.html",
+        form_title="Edit Note",
+        title=existing_result.note.title,
+        content=existing_result.note.content,
+    )

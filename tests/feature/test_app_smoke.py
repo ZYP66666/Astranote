@@ -143,3 +143,111 @@ def test_markdown_like_content_is_preserved(auth_client):
 
     assert response.status_code == 200
     assert b"# Title\n- item" in response.data
+
+
+def test_logged_out_user_is_redirected_from_edit_route(client):
+    response = client.get("/notes/1/edit")
+
+    assert response.status_code == 302
+    assert "/auth/login" in response.headers["Location"]
+
+
+def test_logged_in_user_can_edit_own_note(auth_client):
+    client = auth_client()
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Original", "content": "old content"},
+    )
+    note_location = create_response.headers["Location"]
+
+    edit_page = client.get(f"{note_location}/edit")
+    assert edit_page.status_code == 200
+    assert b"Original" in edit_page.data
+    assert b"old content" in edit_page.data
+
+    edit_response = client.post(
+        f"{note_location}/edit",
+        data={"title": "Updated", "content": "new content"},
+        follow_redirects=True,
+    )
+
+    assert edit_response.status_code == 200
+    assert b"Note updated." in edit_response.data
+    assert b"Updated" in edit_response.data
+    assert b"new content" in edit_response.data
+    assert b"Original" not in edit_response.data
+
+    list_response = client.get("/notes/")
+    assert b"Updated" in list_response.data
+    assert b"Original" not in list_response.data
+
+
+def test_edit_note_rejects_empty_title(auth_client):
+    client = auth_client()
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Original", "content": "old content"},
+    )
+    note_location = create_response.headers["Location"]
+
+    response = client.post(
+        f"{note_location}/edit",
+        data={"title": "", "content": "still here"},
+    )
+
+    assert response.status_code == 400
+    assert b"Title is required." in response.data
+    assert b"still here" in response.data
+
+
+def test_user_cannot_edit_another_users_note(client):
+    client.post(
+        "/auth/register",
+        data={"username": "alex", "password": "secret-password"},
+    )
+    client.post(
+        "/auth/login",
+        data={"username": "alex", "password": "secret-password"},
+    )
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Private Note", "content": "Alex-only content"},
+    )
+    note_location = create_response.headers["Location"]
+    client.post("/auth/logout")
+
+    client.post(
+        "/auth/register",
+        data={"username": "blair", "password": "secret-password"},
+    )
+    client.post(
+        "/auth/login",
+        data={"username": "blair", "password": "secret-password"},
+    )
+
+    get_response = client.get(f"{note_location}/edit")
+    post_response = client.post(
+        f"{note_location}/edit",
+        data={"title": "Changed", "content": "Blair content"},
+    )
+
+    assert get_response.status_code == 404
+    assert post_response.status_code == 404
+
+
+def test_markdown_like_content_is_preserved_after_edit(auth_client):
+    client = auth_client()
+    create_response = client.post(
+        "/notes/new",
+        data={"title": "Markdown", "content": "# Title\n- item"},
+    )
+    note_location = create_response.headers["Location"]
+
+    response = client.post(
+        f"{note_location}/edit",
+        data={"title": "Markdown Updated", "content": "# Updated\n- item"},
+        follow_redirects=True,
+    )
+
+    assert response.status_code == 200
+    assert b"# Updated\n- item" in response.data

@@ -43,6 +43,21 @@ class NoteRepository:
         ).fetchone()
         return self._to_note(row)
 
+    def update_for_user(self, note_id, user_id, title, content):
+        database = self.connection_factory()
+        cursor = database.execute(
+            """
+            UPDATE notes
+            SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ? AND user_id = ?
+            """,
+            (title, content, note_id, user_id),
+        )
+        database.commit()
+        if cursor.rowcount == 0:
+            return None
+        return self.find_for_user(note_id, user_id)
+
     @staticmethod
     def _to_note(row):
         if row is None:
