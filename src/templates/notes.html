@@ -7,9 +7,9 @@
     <div class="workspace-header">
       <div>
         <h1>Notes</h1>
-        <p>Your saved notes are listed here.</p>
+        <p>Create, search, and open notes that belong to your account.</p>
       </div>
-      <a class="button" href="{{ url_for('notes.new_note') }}">New Note</a>
+      <a class="button" href="{{ url_for('notes.new_note') }}">Create Note</a>
     </div>
 
     <form class="search-form" method="get">
@@ -22,6 +22,14 @@
         {% endif %}
       </div>
     </form>
+
+    <p class="result-summary">
+      {% if query %}
+        Showing {{ notes|length }} result{% if notes|length != 1 %}s{% endif %} for "{{ query }}".
+      {% else %}
+        Showing {{ notes|length }} note{% if notes|length != 1 %}s{% endif %}.
+      {% endif %}
+    </p>
 
     {% if notes %}
       <ul class="note-list">

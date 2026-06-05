@@ -24,7 +24,7 @@ This document preserves the traceability discipline from the course artifacts wh
 | FR-6 Search own notes | Story 7 | NoteService search path, NoteRepository query | `/notes/?q=keyword` | Search title/content and scope to current user | Implemented |
 | FR-7 Block cross-user note access | Story 6 | AuthService session, NoteService ownership checks | All note routes and repository queries | User A cannot access User B's notes | Implemented for list/view/open/edit/delete/search |
 | FR-8 Markdown preservation | Story 5 | Note content field | Textarea and SQLite text column | Markdown saved/reloaded exactly | Implemented for create/view/edit |
-| GR1 MVC separation | All stories | Routes, services, repositories, templates | App package structure | Service/repository tests avoid UI dependency | Skeleton implemented |
+| GR1 MVC separation | All stories | Routes, services, repositories, templates | App package structure | Service/repository tests avoid UI dependency | Implemented |
 | RR1-FLASK pytest validation | All stories | pytest suite | `tests/` | Unit, integration, route tests | Auth, create/list/view/edit/delete/search notes, smoke, and database baseline implemented |
 
 ## Deferred Traceability Items

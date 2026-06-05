@@ -21,25 +21,25 @@ This document describes how AstraNotes should remain maintainable after the fina
 - Keep tests tied to requirements and acceptance criteria.
 - Preserve clear error messages for validation and persistence failures.
 
-## Suggested Future Project Structure
+## Current Project Structure
 
 ```text
-app/
-  __init__.py
-  auth/
-  notes/
-  services/
+src/
+  app.py
+  db/
+  models/
   repositories/
-  templates/
+  routes/
+  services/
   static/
+  templates/
 tests/
-  test_auth.py
-  test_notes_service.py
-  test_notes_routes.py
-  test_repositories.py
+  unit/
+  integration/
+  feature/
 ```
 
-This structure is a future coding target, not part of the documentation-only package.
+This structure supports the current Flask MVP and keeps routes, services, repositories, templates, and tests separated.
 
 ## Change Control
 
@@ -57,7 +57,7 @@ Before adding a feature:
 | --- | --- |
 | Secure notes | Add threat model, encryption design, passphrase UX, and tests. |
 | Version history | Define snapshot rules, restore workflow, and duplicate prevention. |
-| Search | Implement final FR-6 as simple SQLite keyword search scoped by current user. |
+| Search refinement | Keep FR-6 as simple SQLite keyword search unless a new requirement justifies a dedicated index. |
 | Markdown preview | Decide rendering library and escaping/safety rules. |
 | Voice notes | Define storage format, upload limits, and playback UX. |
 | Plugin system | Define extension interface and security boundaries. |
@@ -68,7 +68,7 @@ Before adding a feature:
 - Authorization checks duplicated inconsistently
 - SQL leaking into templates or route handlers
 - Tests sharing real development data
-- Deferred features appearing as half-built placeholders
+- Deferred features appearing as half-built stubs
 - Security claims overstating what the MVP actually does
 
 ## Migration From Old C++ Path

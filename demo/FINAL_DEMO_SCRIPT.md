@@ -2,218 +2,181 @@
 
 ## Purpose
 
-This script describes the planned final AstraNotes demonstration after implementation is complete. It is written now so coding can stay aligned to the defense goals.
+Use this script to record an approximately 5-minute final product demo for AstraNotes. The video should show the actual running Flask application, not slides.
 
-## Source Artifacts Used
+## Setup Before Recording
 
-- Week 2.2 Backlog and Sprint Zero Plan
-- Week 6 Development Environment and First Realization Slices
-- Week 7.2 Testing Strategy and First Test Set
-- Final Flask MVP migration decision
-
-## Demo Setup
-
-1. Start from the repository root.
-2. Install Python dependencies:
+From the repository root:
 
 ```powershell
 python -m pip install -r requirements.txt
-```
-
-3. Initialize the SQLite database:
-
-```powershell
 flask --app src.app init-db
-```
-
-4. Run the Flask development server:
-
-```powershell
 flask --app src.app run
 ```
 
-5. Open the app in a browser:
+Open:
 
 ```text
 http://127.0.0.1:5000
 ```
 
-6. Run pytest before or after the manual demo:
+Run tests before recording:
 
 ```powershell
 python -m pytest
 ```
 
-The current implementation supports FR-1 registration/login/logout, FR-2 note creation, FR-3 list/view/open own notes, FR-4 edit own notes, FR-5 delete own notes with confirmation, and FR-6 search own notes.
+## 5-Minute Recording Flow
 
-## Demo Walkthrough
+### 0:00-0:30 Project Intro And Scope
 
-### 1. Introduce The Project
+Show the app home page.
 
-Explain:
+Say:
 
-- AstraNotes began as a C++17 local-first desktop design.
-- The final implementation pivoted to Flask for a faster runnable MVP.
-- The SDLC artifacts were preserved and migrated rather than discarded.
+- AstraNotes is a local-running Flask and SQLite note-taking MVP.
+- The project began as a C++17 desktop design, then pivoted to Python/Flask for the final runnable demo.
+- The MVP focuses on local accounts, user-owned notes, Markdown-compatible text preservation, and pytest validation.
+- Out of scope: secure notes, cloud sync, OAuth, version history, AI summarization, collaborative editing, and enterprise features.
 
-### 2. Show Documentation Structure
+### 0:30-1:15 Register And Log In
 
-Open:
+Show:
 
-- `README.md`
-- `docs/01_REQUIREMENTS.md`
-- `docs/05_TRACEABILITY.md`
-- `docs/06_TESTING_STRATEGY.md`
-- `docs/11_FINAL_PROJECT_SUMMARY.md`
+- Register page
+- Create a demo user
+- Login page
+- Successful login and navigation showing the signed-in user
 
-Point out how requirements, design, tests, and implementation scope connect.
-
-### 3. Register A User
-
-Action:
-
-- Open the register page.
-- Create a demo user.
-
-Expected result:
-
-- User account is created.
-- User is logged in or redirected to login.
-
-Requirement evidence:
+Requirements shown:
 
 - FR-1 registration/login
-- SPR-MVP local privacy boundary
+- Basic session handling
 
-### 4. Create A Note
+### 1:15-2:15 Create, List, And View A Note
 
-Action:
+Show:
 
-- Open New Note.
-- Enter a title.
-- Enter Markdown content such as a heading, bullet list, bold text, and inline code.
-- Save the note.
+- Create Note page
+- Enter a title
+- Enter Markdown-like content, for example:
 
-Expected result:
+```text
+# Sprint Review
+- confirm Flask routes
+- run pytest
+```
 
-- Note is saved.
-- The app redirects to the saved note detail page.
-- The note appears in the user's list.
+- Save the note
+- Open the notes list
+- Open the saved note detail page
 
-Requirement evidence:
+Requirements shown:
 
 - FR-2 create note
-- FR-8 Markdown preservation
-
-### 5. Open The Saved Note
-
-Action:
-
-- Select the note from the list.
-
-Expected result:
-
-- Correct title and content are displayed.
-
-Requirement evidence:
-
 - FR-3 list/view/open own notes
+- FR-8 Markdown-compatible content preservation
 
-### 6. Edit The Note
+### 2:15-3:00 Edit Note
 
-Action:
+Show:
 
-- Edit the title or content.
-- Save changes.
-- Reopen the note.
+- Click Edit from the detail page
+- Update the title or content
+- Save changes
+- Show the updated note detail page
 
-Expected result:
+Point out:
 
-- Updated content appears.
-- No duplicate note is created.
+- Editing updates the existing note rather than creating a duplicate.
 - Markdown-like text remains exactly as typed.
 
-Requirement evidence:
+Requirements shown:
 
 - FR-4 edit own notes
+- FR-8 preservation on edit
 
-### 7. Delete The Note
+### 3:00-3:40 Search Notes
 
-Action:
+Show:
 
-- Use delete action.
-- Confirm deletion.
+- Return to the notes list
+- Search for a word in the title
+- Search for a word in the content
+- Search for a no-match term and show the empty state
+- Clear the search to show all of the current user's notes again
 
-Expected result:
+Requirements shown:
 
-- Note is removed from the user's list.
-- Opening the deleted note returns a controlled not-found response.
+- FR-6 search own notes
+- FR-7 user isolation through user-scoped results
 
-Requirement evidence:
+### 3:40-4:10 Delete Note With Confirmation
+
+Show:
+
+- Open a note detail page
+- Click Delete
+- Show the confirmation screen
+- Cancel briefly if desired, then return and confirm delete
+- Show the note removed from the list
+
+Requirements shown:
 
 - FR-5 delete own notes with confirmation
 
-### 8. Search Notes
+### 4:10-4:40 Show Repository Evidence
 
-Action:
+Briefly show the repository structure:
 
-- Search for a keyword in the user's own note title or content.
+- `src/` for Flask app code
+- `tests/` for unit, integration, and feature tests
+- `docs/` for SDLC evidence
+- `docs/05_TRACEABILITY.md`
+- `docs/06_TESTING_STRATEGY.md`
 
-Expected result:
+Show pytest result:
 
-- Matching notes owned by the current user are shown.
-- Notes owned by other users are not shown.
-- Empty search shows all notes owned by the current user.
-- A no-match search shows a clear empty state.
+```text
+56 passed
+```
 
-Requirement evidence:
+### 4:40-5:00 AI Use, Human Review, And Close
 
-- FR-6 search own notes
-- FR-7 cross-user note isolation
+Show `docs/10_AI_USAGE_AND_VALIDATION.md` or summarize it.
 
-### 9. Demonstrate User Isolation
+Say:
 
-Action:
+- AI helped draft, migrate, critique, and implement, but the final stack, scope, tests, and traceability decisions were human-reviewed.
+- Deferred features were intentionally kept out to protect scope and make the MVP defensible.
+- The repository demonstrates a full SDLC path and a working local web application.
 
-- Create a second user.
-- Confirm the second user cannot see the first user's notes.
+## Manual Demo Verification Checklist
 
-Expected result:
+Before recording, verify:
 
-- Note list is scoped to current user.
+- [ ] `flask --app src.app init-db` succeeds
+- [ ] `flask --app src.app run` starts the app
+- [ ] Home page loads at `http://127.0.0.1:5000`
+- [ ] Register works
+- [ ] Login works
+- [ ] Create note works
+- [ ] Notes list shows the created note
+- [ ] Note detail page opens
+- [ ] Edit note works
+- [ ] Markdown-like text remains exactly as typed
+- [ ] Search by title works
+- [ ] Search by content works
+- [ ] No-match search shows a clear empty state
+- [ ] Delete confirmation page appears
+- [ ] Confirmed delete removes the note
+- [ ] Logout works
+- [ ] A second user cannot see the first user's notes
+- [ ] `python -m pytest` passes
 
-Requirement evidence:
+## Recording Tips
 
-- FR-7 cross-user note isolation
-- Security notes
-
-### 10. Show Tests
-
-Action:
-
-- Run pytest.
-
-Expected result:
-
-- Tests pass for auth, note CRUD, Markdown preservation, and ownership checks.
-- Search tests are included in the automated suite.
-
-Requirement evidence:
-
-- RR1-FLASK pytest validation
-
-### 11. Close With Scope Control
-
-Explain deferred items:
-
-- Secure notes
-- Voice notes
-- Version history
-- Cloud sync
-- OAuth
-- AI summarization
-- Collaborative editing
-
-Closing message:
-
-AstraNotes demonstrates a complete AI-assisted SDLC path and a focused final MVP rather than uncontrolled feature expansion.
+- Keep the browser and terminal side by side only when showing tests.
+- Use one simple demo account and two or three short notes.
+- Do not spend time on deferred features; name them briefly near the end.
+- Keep the video focused on the working product.

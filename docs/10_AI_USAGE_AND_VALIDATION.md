@@ -58,7 +58,7 @@ The final package reflects several human-controlled decisions:
 | Secure-note encryption | Deferred | Important but explicitly not implemented now. |
 | Voice notes | Deferred | Future extension only. |
 | Full plugin system | Deferred | Overbuilt for MVP. |
-| Dedicated SearchIndex | Deferred | Search is now a scoped MVP requirement, but should be implemented later as simple SQLite search. |
+| Dedicated SearchIndex | Deferred | Search is implemented as simple SQLite search; a separate subsystem would be overbuilt for the MVP. |
 | UI color/layout tests | Rejected as first tests | Noisy and not core requirement behavior. |
 
 ## Validation Checklist

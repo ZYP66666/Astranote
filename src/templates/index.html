@@ -6,10 +6,15 @@
   <section class="intro">
     <h1>AstraNotes</h1>
     <p>A local-running Flask and SQLite note-taking MVP for the final AI-Driven Software Development defense.</p>
-    <p>This skeleton prepares the app structure for authentication, note management, traceability, and pytest validation.</p>
+    <p>Create, edit, search, and delete your own Markdown-compatible notes with local SQLite persistence.</p>
     <div class="actions">
-      <a class="button" href="{{ url_for('notes.list_notes') }}">Open Notes Workspace</a>
-      <a class="button secondary" href="{{ url_for('auth.register') }}">Register Placeholder</a>
+      {% if g.user %}
+        <a class="button" href="{{ url_for('notes.list_notes') }}">Open My Notes</a>
+        <a class="button secondary" href="{{ url_for('notes.new_note') }}">Create Note</a>
+      {% else %}
+        <a class="button" href="{{ url_for('auth.register') }}">Register</a>
+        <a class="button secondary" href="{{ url_for('auth.login') }}">Login</a>
+      {% endif %}
     </div>
   </section>
 {% endblock %}

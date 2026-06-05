@@ -16,7 +16,7 @@ The final MVP design supports:
 
 - Local user registration and login
 - User-owned text notes
-- Create, list, open, edit, and delete workflows
+- Create, list, open, edit, delete, and search workflows
 - Markdown text preservation
 - SQLite persistence
 - MVC-style separation
@@ -51,6 +51,7 @@ classDiagram
     class NoteService {
         create_note()
         list_notes()
+        search_notes()
         get_note()
         update_note()
         delete_note()
@@ -65,6 +66,7 @@ classDiagram
     class NoteRepository {
         create()
         list_for_user()
+        search_for_user()
         find_for_user()
         update_for_user()
         delete_for_user()
@@ -118,7 +120,7 @@ flowchart TD
 - SecureNote is deferred.
 - EncryptionService is deferred.
 - VersionHistory is deferred.
-- A dedicated SearchIndex is deferred. FR-6 will be implemented later as a simple SQLite title/content search scoped by user.
+- A dedicated SearchIndex is deferred. FR-6 is implemented as simple SQLite title/content search scoped by user.
 - VoiceNote is deferred.
 - Plugin-style extensibility is deferred.
 

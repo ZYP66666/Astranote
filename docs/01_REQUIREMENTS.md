@@ -13,7 +13,7 @@ This document migrates the AstraNotes requirement baseline from the original cou
 
 ## Final MVP Product Goal
 
-AstraNotes will be a local-running web application that lets users create, manage, and reopen Markdown-compatible text notes. It should demonstrate disciplined SDLC practice, basic privacy boundaries through local user accounts, SQLite persistence, MVC separation, and pytest-based validation.
+AstraNotes is a local-running web application that lets users create, manage, and reopen Markdown-compatible text notes. It demonstrates disciplined SDLC practice, basic privacy boundaries through local user accounts, SQLite persistence, MVC separation, and pytest-based validation.
 
 ## Final Flask MVP Functional Requirements
 

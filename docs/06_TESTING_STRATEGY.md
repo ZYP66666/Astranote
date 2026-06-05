@@ -38,6 +38,8 @@ Testing is shift-left and incremental. The current implemented tests validate FR
 
 ## Current FR-1 Through FR-6 pytest Coverage
 
+Current automated result: `56 passed`.
+
 | Test Area | Expected Result |
 | --- | --- |
 | AuthService empty username | Registration fails with a clear message. |
@@ -75,14 +77,14 @@ Testing is shift-left and incremental. The current implemented tests validate FR
 | Search route | Logged-in users can search by title or content. |
 | Search ownership | User A cannot discover User B's notes through search. |
 
-## Future pytest Ideas
+## Optional Future pytest Ideas
 
 | Test ID | Feature | Level | Expected Result |
 | --- | --- | --- | --- |
-| T1 | Regression after UI polish | Route/feature | Core auth and note workflows remain intact. |
+| T1 | Additional regression cases | Route/feature | Core auth and note workflows remain intact after future maintenance changes. |
 | T2 | Optional edge cases | Service/repository | Special characters in search do not break user-scoped results. |
 
-## pytest Fixtures Needed Later
+## Current pytest Fixtures
 
 - Temporary SQLite database fixture
 - Flask app fixture using test configuration

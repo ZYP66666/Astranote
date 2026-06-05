@@ -1,8 +1,8 @@
 # AstraNotes Final Defense Repository
 
-AstraNotes is a local-running note-taking MVP created for an AI-Driven Software Development course. This repository preserves the project's SDLC journey and now includes the first runnable Python/Flask skeleton for the final implementation path.
+AstraNotes is a local-running note-taking web application built for an AI-Driven Software Development final defense. The repository is both a working Flask MVP and an SDLC evidence package: requirements, planning, architecture, design, traceability, testing, security, deployment, maintenance, and AI-use documentation live beside the application code.
 
-The original course artifacts explored a C++17 local-first desktop direction. The final realization has pivoted to a faster runnable local web MVP while preserving the product idea, requirements intent, MVC principles, traceability discipline, testing strategy, responsible AI practices, and Definition of Done.
+The project began in earlier course artifacts as a C++17 local-first desktop design. The final implementation intentionally pivots to a faster runnable Python/Flask/SQLite web MVP while preserving the product idea, MVC/separation-of-concerns principles, traceability discipline, testing strategy, and responsible AI review process.
 
 ## Final Tech Stack
 
@@ -11,15 +11,22 @@ The original course artifacts explored a C++17 local-first desktop direction. Th
 - SQLite
 - HTML/CSS/Jinja templates
 - pytest
-- Local-running web application
-- Basic multi-user support in progress
-- Simple MVC / separation-of-concerns architecture
+- Local browser-based demo
 
-## Current Implementation Status
+## Implemented MVP Features
 
-FR-1 through FR-6 are implemented: registration/login/logout, create/list/view own notes, edit own notes, delete own notes with confirmation, and search own notes. Notes are stored in SQLite with user ownership, timestamps, and exact text content preservation.
+- FR-1: local user registration, login, logout, password hashing, and Flask sessions
+- FR-2: create notes with title and content
+- FR-3: list, view, and open only the current user's notes
+- FR-4: edit the current user's notes without creating duplicates
+- FR-5: delete the current user's notes with confirmation
+- FR-6: search the current user's notes by title or content
+- FR-7: user isolation across list, view, open, edit, delete, and search
+- FR-8: Markdown-compatible content preserved exactly as typed for create, view, and edit
 
-The app does not implement secure notes, version history, cloud sync, OAuth, Docker, Kubernetes, enterprise admin, billing, AI summarization, collaborative editing, or advanced production deployment features.
+## Out Of Scope
+
+The final MVP does not implement secure notes, production encryption, version history, cloud sync, OAuth, Docker, Kubernetes, enterprise administration, billing, mobile apps, AI summarization, collaborative editing, plugin systems, or advanced production deployment.
 
 ## Repository Structure
 
@@ -44,23 +51,21 @@ AstraNotes/
     FINAL_DEMO_SCRIPT.md
   src/
     app.py
+    db/
     models/
+    repositories/
     routes/
     services/
-    repositories/
-    db/
-    templates/
     static/
+    templates/
   tests/
     conftest.py
-    unit/
-    integration/
     feature/
+    integration/
+    unit/
 ```
 
 ## Setup
-
-Create and activate a virtual environment, then install dependencies:
 
 ```powershell
 python -m venv .venv
@@ -68,35 +73,25 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-## Run The App
-
-From the repository root:
-
-```powershell
-flask --app src.app run
-```
-
-Then open:
-
-```text
-http://127.0.0.1:5000
-```
-
-You can also run the app directly:
-
-```powershell
-python src/app.py
-```
-
 ## Initialize The Database
-
-From the repository root:
 
 ```powershell
 flask --app src.app init-db
 ```
 
-This creates the configured local SQLite database and applies `src/db/schema.sql`.
+This creates the local SQLite database and applies `src/db/schema.sql`.
+
+## Run The App
+
+```powershell
+flask --app src.app run
+```
+
+Open:
+
+```text
+http://127.0.0.1:5000
+```
 
 ## Run Tests
 
@@ -104,24 +99,38 @@ This creates the configured local SQLite database and applies `src/db/schema.sql
 python -m pytest
 ```
 
-The current tests cover skeleton smoke behavior, SQLite schema initialization, user and note repository behavior, AuthService validation/authentication, NoteService validation/ownership/search behavior, password hashing, register/login/logout routing, protected notes access, note creation, own-note listing/viewing, note editing, confirmed note deletion, user-scoped search, cross-user note blocking, duplicate-prevention on edit, timestamp updates, and Markdown-like content preservation.
+Current status: 56 passing tests covering unit, integration, and feature/route behavior.
+
+## Final Demo Video Focus
+
+The recorded product demo should show the actual running app, not slides:
+
+1. Briefly introduce the scope and Flask/SQLite pivot.
+2. Register and log in.
+3. Create, list, and view a note.
+4. Edit the note and show Markdown-like content preservation.
+5. Search notes by title/content.
+6. Delete a note with confirmation.
+7. Briefly show repository docs, traceability, and pytest results.
+8. Close with AI-assisted development, human review, and out-of-scope items.
+
+Use [demo/FINAL_DEMO_SCRIPT.md](demo/FINAL_DEMO_SCRIPT.md) for the 5-minute recording plan and manual verification checklist.
+
+## Final Submission Artifacts
+
+- GitHub repository link: submit the URL for this repository.
+- Recorded product demo: approximately 5 minutes, showing the running Flask app.
+- Repository evidence: documentation in `docs/`, working application code in `src/`, and pytest coverage in `tests/`.
 
 ## Instructor Review Path
 
-1. Start with `docs/11_FINAL_PROJECT_SUMMARY.md` for the overall story.
-2. Review `docs/01_REQUIREMENTS.md` and `docs/05_TRACEABILITY.md` to see how requirements survived the pivot.
-3. Review `docs/03_ARCHITECTURE_DECISIONS.md` and `docs/04_UML_AND_DESIGN.md` to understand the updated Flask architecture.
-4. Review `docs/06_TESTING_STRATEGY.md` for the first pytest validation set.
-5. Review `docs/10_AI_USAGE_AND_VALIDATION.md` for responsible AI use and human review.
-6. Use `demo/FINAL_DEMO_SCRIPT.md` as the planned final walkthrough.
+1. Start with `docs/11_FINAL_PROJECT_SUMMARY.md`.
+2. Review `docs/01_REQUIREMENTS.md` and `docs/05_TRACEABILITY.md`.
+3. Review `docs/03_ARCHITECTURE_DECISIONS.md` and `docs/04_UML_AND_DESIGN.md`.
+4. Review `docs/06_TESTING_STRATEGY.md`.
+5. Review `docs/07_SECURITY_NOTES.md`, `docs/08_DEPLOYMENT_NOTES.md`, and `docs/09_MAINTENANCE_NOTES.md`.
+6. Review `docs/10_AI_USAGE_AND_VALIDATION.md`.
 
-## Source Course Artifacts Used
+## AI-Assisted Development Note
 
-- Initial Requirement Set
-- Working Agreement and Definition of Done for AstraNotes
-- Week 2.2 Backlog and Sprint Zero Plan
-- Architecture Decision Log
-- Week 4.2 Complete UML Design Package
-- Week 5.2 Requirements-to-UML Traceability Matrix
-- Week 6 Development Environment and First Realization Slices
-- Week 7.2 Testing Strategy and First Test Set
+AI was used as a drafting, migration, implementation, and test-critique partner. Human review controlled the final stack decision, scope boundaries, feature sequencing, traceability updates, and rejection of unsupported features.

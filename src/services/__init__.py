@@ -1,1 +1,1 @@
-"""Service-layer placeholders for AstraNotes."""
+"""Service layer for AstraNotes workflow and validation."""
