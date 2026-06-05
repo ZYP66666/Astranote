@@ -13,7 +13,7 @@ This document adapts the Week 7.2 testing strategy to pytest and the Flask MVP. 
 
 ## Testing Approach
 
-Testing will be shift-left and incremental. The first implemented tests validate FR-1 local authentication and the Flask/SQLite skeleton. Later tests should expand into note behavior one feature slice at a time.
+Testing will be shift-left and incremental. The current implemented tests validate FR-1 local authentication, FR-2 note creation, the first part of FR-3 list/view/open own notes, and the Flask/SQLite skeleton. Later tests should expand into edit, delete, and search one feature slice at a time.
 
 - Register/login/logout
 - Create a text note
@@ -30,13 +30,13 @@ Testing will be shift-left and incremental. The first implemented tests validate
 
 | Level | Purpose | First Targets |
 | --- | --- | --- |
-| Unit tests | Validate service validation rules without full UI. | Auth validation now; note validation later. |
-| Repository tests | Validate SQLite interactions using temporary databases. | User create/find now; note insert/list/search later. |
-| Route tests | Validate Flask request/response workflows. | Register/login/logout now; note workflows later. |
+| Unit tests | Validate service validation rules without full UI. | Auth validation and note create/open ownership now; edit/delete/search later. |
+| Repository tests | Validate SQLite interactions using temporary databases. | User create/find and note create/list/find now; search later. |
+| Route tests | Validate Flask request/response workflows. | Register/login/logout and create/list/view notes now; edit/delete/search later. |
 | Feature/demo checks | Validate visible user workflows. | Final demo script walkthrough. |
 | AI-native critique | Ask AI to suggest missing edge cases, then review manually. | Invalid input, unauthorized access, storage failures. |
 
-## Current FR-1 pytest Coverage
+## Current FR-1 Through FR-3 pytest Coverage
 
 | Test Area | Expected Result |
 | --- | --- |
@@ -49,22 +49,23 @@ Testing will be shift-left and incremental. The first implemented tests validate
 | Invalid login | Wrong password returns a clear failure. |
 | Register/login/logout route flow | Session is created on login and cleared on logout. |
 | Protected notes workspace | Logged-out users are redirected to login. |
+| NoteService empty title | Note creation fails with a clear message. |
+| NoteService valid create | A note is created for the current user. |
+| NoteRepository create/find | A note can be saved and retrieved by ID and user ID. |
+| NoteRepository list by user | A user sees only their own notes. |
+| Note ownership | Another user's note is not returned by service/repository/view route. |
+| Note route create/list/view | Logged-in users can create, list, and open their own notes. |
+| Markdown-like content | Content such as `# Title` and `- item` is preserved exactly as typed. |
 
 ## Future pytest Test Set
 
 | Test ID | Feature | Level | Expected Result |
 | --- | --- | --- | --- |
-| T1 | FR-2 create note validation | Unit/service | Blank title is rejected with clear message. |
-| T2 | FR-2 create note success | Unit/service or repository | Valid note gets ID, user ID, title, content, timestamps. |
-| T3 | FR-8 Markdown preservation | Repository/integration | Markdown text reloads exactly as saved. |
-| T4 | FR-3 list notes | Repository/route | Current user sees only their notes. |
-| T5 | FR-7 user isolation | Service/route | User A cannot access User B's notes. |
-| T6 | FR-3 open saved note | Repository/route | Saved note opens with correct title/content. |
-| T7 | FR-4 edit note | Service/route | Existing note updates without duplicate record. |
-| T8 | FR-5 delete note | Route/repository | Confirmed delete removes the note. |
-| T9 | FR-6 search notes | Service/repository/route | Search results are scoped to current user. |
-| T10 | Invalid create workflow | Route | Validation message shown and content is not silently lost. |
-| T11 | Temporary DB safety | Test infrastructure | Tests do not read/write real development data. |
+| T1 | FR-4 edit note | Service/route | Existing note updates without duplicate record. |
+| T2 | FR-5 delete note | Route/repository | Confirmed delete removes the note. |
+| T3 | FR-6 search notes | Service/repository/route | Search results are scoped to current user. |
+| T4 | FR-7 user isolation | Service/route | Edit/delete/search cannot access another user's notes. |
+| T5 | FR-8 Markdown preservation on edit | Repository/integration | Edited Markdown text reloads exactly as saved. |
 
 ## pytest Fixtures Needed Later
 

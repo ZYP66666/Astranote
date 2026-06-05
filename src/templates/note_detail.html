@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ note.title }} - AstraNotes{% endblock %}
+
+{% block content %}
+  <article class="panel note-detail">
+    <div class="note-detail-header">
+      <div>
+        <h1>{{ note.title }}</h1>
+        <p>Created {{ note.created_at }} - Updated {{ note.updated_at }}</p>
+      </div>
+      <a class="button secondary" href="{{ url_for('notes.list_notes') }}">Back To Notes</a>
+    </div>
+    <pre class="note-content">{{ note.content }}</pre>
+  </article>
+{% endblock %}

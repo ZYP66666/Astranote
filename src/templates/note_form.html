@@ -7,10 +7,10 @@
     <h1>{{ form_title }}</h1>
     <form method="post">
       <label for="title">Title</label>
-      <input id="title" name="title" type="text">
+      <input id="title" name="title" type="text" value="{{ title or '' }}">
 
       <label for="content">Content</label>
-      <textarea id="content" name="content" rows="12"></textarea>
+      <textarea id="content" name="content" rows="12">{{ content or '' }}</textarea>
 
       <button type="submit">Save Note</button>
     </form>

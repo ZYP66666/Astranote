@@ -4,10 +4,25 @@
 
 {% block content %}
   <section class="workspace">
-    <div>
-      <h1>Notes Workspace</h1>
-      <p>This protected placeholder confirms that authentication is active. Note create/list/open behavior will be added in the next implementation slice.</p>
+    <div class="workspace-header">
+      <div>
+        <h1>Notes</h1>
+        <p>Your saved notes are listed here.</p>
+      </div>
+      <a class="button" href="{{ url_for('notes.new_note') }}">New Note</a>
     </div>
-    <a class="button" href="{{ url_for('notes.new_note') }}">Open Note Form</a>
+
+    {% if notes %}
+      <ul class="note-list">
+        {% for note in notes %}
+          <li>
+            <a href="{{ url_for('notes.view_note', note_id=note.id) }}">{{ note.title }}</a>
+            <span>Updated {{ note.updated_at }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty-state">No notes yet.</p>
+    {% endif %}
   </section>
 {% endblock %}
