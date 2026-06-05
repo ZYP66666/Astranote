@@ -95,6 +95,22 @@ body {
     padding: 0;
 }
 
+.search-form {
+    border-top: 1px solid #d9e2ec;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+}
+
+.search-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.search-row input {
+    flex: 1 1 18rem;
+}
+
 .note-list li {
     border-top: 1px solid #d9e2ec;
     display: flex;
@@ -220,6 +236,7 @@ textarea {
     .workspace-header,
     .note-detail-header,
     .note-actions,
+    .search-row,
     .note-list li {
         flex-direction: column;
     }

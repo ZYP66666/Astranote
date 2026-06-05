@@ -118,3 +118,31 @@ def test_note_service_refuses_delete_for_unowned_note(app):
     assert result.success is False
     assert result.message == "Note not found."
     assert still_exists.success is True
+
+
+def test_note_service_search_returns_only_user_scoped_results(app):
+    with app.app_context():
+        auth_service = AuthService()
+        alex = auth_service.register_user("alex", "secret-password").user
+        blair = auth_service.register_user("blair", "secret-password").user
+        service = NoteService()
+        service.create_note(alex.id, "Sprint Plan", "alpha")
+        service.create_note(blair.id, "Sprint Secret", "beta")
+
+        result = service.search_notes_for_user(alex.id, "Sprint")
+
+    assert result.success is True
+    assert [note.title for note in result.notes] == ["Sprint Plan"]
+
+
+def test_note_service_empty_search_returns_all_notes_for_user(app):
+    with app.app_context():
+        user = AuthService().register_user("alex", "secret-password").user
+        service = NoteService()
+        service.create_note(user.id, "First", "alpha")
+        service.create_note(user.id, "Second", "beta")
+
+        result = service.search_notes_for_user(user.id, " ")
+
+    assert result.success is True
+    assert {note.title for note in result.notes} == {"First", "Second"}
