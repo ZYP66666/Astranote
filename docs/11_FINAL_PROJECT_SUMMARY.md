@@ -19,7 +19,7 @@ The original artifacts selected a C++17 local-first desktop path. The final impl
 
 ## Final MVP
 
-The final MVP will allow local users to:
+The final MVP allows local users to:
 
 - Register and log in
 - Create notes
@@ -93,6 +93,19 @@ Create and manage local Markdown-compatible notes with basic user separation, SQ
 
 ## Current Status
 
-Implementation has progressed through the Flask skeleton and FR-1 through FR-6: local authentication, note creation, list/view/open own notes, edit own notes, delete own notes with confirmation, and user-scoped keyword search. The repository now includes `src/app.py`, registered auth and note blueprints, SQLite schema/init helpers, Jinja templates, CSS, implemented user and note repository/service behavior, Flask session handling, and pytest coverage for registration/login/logout plus create/list/view/edit/delete/search notes.
+Implementation has progressed through the Flask skeleton and FR-1 through FR-6: local authentication, note creation, list/view/open own notes, edit own notes, delete own notes with confirmation, and user-scoped keyword search. FR-7 user isolation is enforced across note workflows, and FR-8 Markdown-compatible content preservation is covered for create/view/edit. The repository includes `src/app.py`, registered auth and note blueprints, SQLite schema/init helpers, Jinja templates, CSS, implemented user and note repository/service behavior, Flask session handling, and pytest coverage for registration/login/logout plus create/list/view/edit/delete/search notes.
 
-The core Flask MVP feature set is now implemented. The next phase should be final demo polish, documentation review, and any small usability fixes discovered during manual defense rehearsal.
+The core Flask MVP feature set and final defense documentation polish are complete. The remaining work is manual demo rehearsal, recording the approximately 5-minute product demo video, and submitting the GitHub repository link.
+
+## Manual Defense Checklist
+
+- Register/login works.
+- Create note works.
+- List/view/open own notes works.
+- Edit own notes works.
+- Search own notes works.
+- Delete own notes with confirmation works.
+- Logout works.
+- User isolation is demonstrated with a second user.
+- `python -m pytest` reports 56 passing tests.
+- Deferred features are named as out of scope, not presented as implemented.

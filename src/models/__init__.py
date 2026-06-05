@@ -1,1 +1,1 @@
-"""Domain model placeholders for AstraNotes."""
+"""Domain models for AstraNotes."""

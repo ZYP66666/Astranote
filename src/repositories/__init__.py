@@ -1,1 +1,1 @@
-"""Repository-layer placeholders for AstraNotes."""
+"""Repository layer for AstraNotes persistence."""

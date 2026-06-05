@@ -79,7 +79,7 @@ The MVP includes basic local user accounts using password hashing and Flask sess
 - SecureNote class hierarchy
 - EncryptionService
 - VersionHistory/HistoryManager
-- Dedicated SearchIndex service; FR-6 should use a simple SQLite-backed search slice later
+- Dedicated SearchIndex service; FR-6 is handled by simple SQLite-backed title/content search
 - Plugin manager
 - Voice note storage
 - Cloud sync or API backend

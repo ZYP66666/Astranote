@@ -12,9 +12,9 @@
         <a class="brand" href="{{ url_for('index') }}">AstraNotes</a>
         <div class="nav-links">
           {% if g.user %}
-            <a href="{{ url_for('notes.list_notes') }}">Notes</a>
-            <a href="{{ url_for('notes.new_note') }}">New Note</a>
-            <span class="nav-user">{{ g.user.username }}</span>
+            <a href="{{ url_for('notes.list_notes') }}">My Notes</a>
+            <a href="{{ url_for('notes.new_note') }}">Create Note</a>
+            <span class="nav-user">Signed in as {{ g.user.username }}</span>
             <form class="nav-form" action="{{ url_for('auth.logout') }}" method="post">
               <button class="link-button" type="submit">Logout</button>
             </form>
